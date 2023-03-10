@@ -1,6 +1,11 @@
 package demo.asd.dynamic_config.model;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class Configuration {
     BasicConfiguration basic;
@@ -41,11 +46,21 @@ public class Configuration {
     }
 
     public static boolean load() {
-//        TODO:
-//        1. check if config file exists, else return false
         File configFile = new File(System.getProperty("user.home") + "/gps-config.json");
-//        2. load config file and set the above variables and ensure everything is loaded correctly, else return false
+        boolean exists = configFile.exists();
 
-        return configFile.exists();
+        if (exists) {
+            Gson gson = new Gson();
+
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
+                Configuration configuration = gson.fromJson(bufferedReader, Configuration.class);
+//                TODO: load config file and ensure everything is loaded correctly, else exists = false
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return exists;
     }
 }
