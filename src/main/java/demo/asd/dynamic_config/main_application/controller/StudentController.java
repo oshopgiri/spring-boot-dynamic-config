@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class StudentController {
-
-//    TODO: uncomment to crash on restart
-//    @Autowired
-//    StudentRepository studentRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     @GetMapping("/")
     public String show() {
+//        TODO: get a list of students from the database and show it on the page
         return "student_list";
     }
 }
