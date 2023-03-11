@@ -57,6 +57,7 @@ public class SetupController {
 
         Configuration.save(configuration);
         Application.restart();
+
         return"configuration_saved";
     }
 }

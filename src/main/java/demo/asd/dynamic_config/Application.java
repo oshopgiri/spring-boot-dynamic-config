@@ -19,11 +19,10 @@ public class Application {
     }
 
     public static void restart() {
-        configure();
-
         ApplicationArguments args = context.getBean(ApplicationArguments.class);
         Thread thread = new Thread(() -> {
             if (context != null) context.close();
+            configure();
             boot(args.getSourceArgs());
         });
 //        https://stackoverflow.com/a/60957691
