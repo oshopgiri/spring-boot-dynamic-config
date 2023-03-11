@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class Configuration {
+    public static String CONFIG_FILE_PATH = System.getProperty("user.home") + "/gps-config.json";
+
     BasicConfiguration basic;
     DatabaseConfiguration database;
     LDAPConfigurtion ldap;
@@ -46,7 +48,7 @@ public class Configuration {
     }
 
     public static boolean load() {
-        File configFile = new File(System.getProperty("user.home") + "/gps-config.json");
+        File configFile = new File(CONFIG_FILE_PATH);
         boolean exists = configFile.exists();
 
         if (exists) {
@@ -55,7 +57,10 @@ public class Configuration {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
                 Configuration configuration = gson.fromJson(bufferedReader, Configuration.class);
-//                TODO: load config file and ensure everything is loaded correctly, else exists = false
+
+                System.setProperty("spring.datasource.password", configuration.getDatabase().getDbPassword());
+                System.setProperty("spring.datasource.url", configuration.getDatabase().getDbUrl());
+                System.setProperty("spring.datasource.username", configuration.getDatabase().getDbUsername());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

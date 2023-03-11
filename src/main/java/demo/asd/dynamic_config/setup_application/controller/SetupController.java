@@ -33,11 +33,11 @@ public class SetupController {
         basicConfiguration.setLogFilePath("c:users");
 
         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
-        databaseConfiguration.setDbName("test");
-        databaseConfiguration.setDbHostname("sa");
-        databaseConfiguration.setDbPort("1433");
-        databaseConfiguration.setDbUsername("sa");
-        databaseConfiguration.setDbPassword("123");
+        databaseConfiguration.setDbName("dynamic_config");
+        databaseConfiguration.setDbHostname("localhost");
+        databaseConfiguration.setDbPort("3306");
+        databaseConfiguration.setDbUsername("root");
+        databaseConfiguration.setDbPassword("");
 
         SMTPConfiguration smtpConfiguration = new SMTPConfiguration();
         smtpConfiguration.setSmtpPassword("8090");
@@ -60,11 +60,10 @@ public class SetupController {
         configuration.setSmtp(smtpConfiguration);
         configuration.setLdap(ldapConfigurtion);
 
-        LOGGER.info(System.getProperty("user.home"));
-        File configFile = new File(System.getProperty("user.home") + "/gps-config.json");
+        File configFile = new File(Configuration.CONFIG_FILE_PATH);
         try {
             if (configFile.createNewFile()) {
-                FileWriter fileWriter = new FileWriter(System.getProperty("user.home") + "/gps-config.json");
+                FileWriter fileWriter = new FileWriter(Configuration.CONFIG_FILE_PATH);
                 Gson gson = new Gson();
 
                 String data = gson.toJson(configuration);

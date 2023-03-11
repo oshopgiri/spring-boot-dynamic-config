@@ -46,4 +46,8 @@ public class DatabaseConfiguration {
     public void setDbPassword(String dbPassword) {
         this.dbPassword = dbPassword;
     }
+
+    public String getDbUrl() {
+        return "jdbc:mysql://" + dbHostname + ":" + dbPort + "/" + dbName;
+    }
 }
