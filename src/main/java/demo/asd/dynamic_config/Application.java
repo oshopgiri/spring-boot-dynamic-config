@@ -8,13 +8,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class Application {
-    private static Class applicationClass;
     private static ClassLoader mainThreadClassLoader;
     private static ConfigurableApplicationContext context;
 
     public static void main(String[] args) {
         mainThreadClassLoader = Thread.currentThread().getContextClassLoader();
-        configure();
         boot(args);
     }
 
@@ -22,7 +20,6 @@ public class Application {
         ApplicationArguments args = context.getBean(ApplicationArguments.class);
         Thread thread = new Thread(() -> {
             if (context != null) context.close();
-            configure();
             boot(args.getSourceArgs());
         });
 //        https://stackoverflow.com/a/60957691
@@ -32,10 +29,7 @@ public class Application {
     }
 
     private static void boot(String[] args) {
+        Class applicationClass = Configuration.load() ? MainApplication.class : SetupApplication.class;
         context = SpringApplication.run(applicationClass, args);
-    }
-
-    private static void configure() {
-        applicationClass = Configuration.load() ? MainApplication.class : SetupApplication.class;
     }
 }
