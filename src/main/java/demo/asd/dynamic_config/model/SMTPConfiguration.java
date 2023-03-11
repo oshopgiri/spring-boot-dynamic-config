@@ -1,40 +1,40 @@
 package demo.asd.dynamic_config.model;
 
 public class SMTPConfiguration {
-    String smtpServer;
-    String smtpPort;
-    String smtpUsername;
-    String smtpPassword;
+    String password;
+    int port;
+    String server;
+    String username;
 
-    public String getSmtpServer() {
-        return smtpServer;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSmtpServer(String smtpServer) {
-        this.smtpServer = smtpServer;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSmtpPort() {
-        return smtpPort;
+    public int getPort() {
+        return port;
     }
 
-    public void setSmtpPort(String smtpPort) {
-        this.smtpPort = smtpPort;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public String getSmtpUsername() {
-        return smtpUsername;
+    public String getServer() {
+        return server;
     }
 
-    public void setSmtpUsername(String smtpUsername) {
-        this.smtpUsername = smtpUsername;
+    public void setServer(String server) {
+        this.server = server;
     }
 
-    public String getSmtpPassword() {
-        return smtpPassword;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSmtpPassword(String smtpPassword) {
-        this.smtpPassword = smtpPassword;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
