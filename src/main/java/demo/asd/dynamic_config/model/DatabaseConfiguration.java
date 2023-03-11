@@ -47,7 +47,7 @@ public class DatabaseConfiguration {
         this.username = username;
     }
 
-    public String getDbUrl() {
+    public String getURL() {
         return "jdbc:mysql://" + hostname + ":" + port + "/" + name;
     }
 }

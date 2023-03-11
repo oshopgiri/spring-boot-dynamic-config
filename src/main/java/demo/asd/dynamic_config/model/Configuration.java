@@ -76,7 +76,7 @@ public class Configuration {
                 );
 
                 System.setProperty("spring.datasource.password", configuration.getDatabase().getPassword());
-                System.setProperty("spring.datasource.url", configuration.getDatabase().getDbUrl());
+                System.setProperty("spring.datasource.url", configuration.getDatabase().getURL());
                 System.setProperty("spring.datasource.username", configuration.getDatabase().getUsername());
             } catch (FileNotFoundException e) {
                 loaded = false;
