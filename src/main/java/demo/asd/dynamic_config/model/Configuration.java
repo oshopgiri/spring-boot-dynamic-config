@@ -64,7 +64,6 @@ public class Configuration {
 
         if (loaded) {
             try {
-//                TODO: decrypt file content before initializing Configuration instance
                 Configuration configuration = new Gson().fromJson(
                         new BufferedReader(new FileReader(configFile)),
                         Configuration.class
@@ -90,7 +89,6 @@ public class Configuration {
 
             if (configFile.createNewFile()) {
                 FileWriter configWriter = new FileWriter(configFile);
-//                TODO: encrypt configuration before writing to file
                 configWriter.write(new Gson().toJson(configuration));
                 configWriter.close();
             } else {
