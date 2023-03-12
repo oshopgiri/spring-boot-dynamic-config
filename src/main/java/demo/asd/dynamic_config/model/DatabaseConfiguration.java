@@ -50,4 +50,12 @@ public class DatabaseConfiguration {
     public String getURL() {
         return "jdbc:mysql://" + hostname + ":" + port + "/" + name;
     }
+
+    public boolean isValid() {
+        return !hostname.isEmpty() &&
+                !name.isEmpty() &&
+                !password.isEmpty() &&
+                (port != 0) &&
+                !username.isEmpty();
+    }
 }

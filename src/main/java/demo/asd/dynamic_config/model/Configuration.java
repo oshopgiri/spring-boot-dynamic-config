@@ -47,16 +47,28 @@ public class Configuration {
         this.smtp = smtp;
     }
 
+    public boolean isValid() throws InvalidConfigurationException {
+        boolean valid = basic.isValid() &&
+                database.isValid() &&
+                ldap.isValid() &&
+                smtp.isValid();
+
+        if (!valid) throw new InvalidConfigurationException("configuration file is invalid");
+
+        return true;
+    }
+
     public static void save(Configuration configuration) {
         File configFile = new File(CONFIG_FILE_PATH);
-
         try {
+            configuration.isValid();
+
             if (configFile.createNewFile()) {
                 FileWriter configWriter = new FileWriter(configFile);
                 configWriter.write(new Gson().toJson(configuration));
                 configWriter.close();
             } else {
-                LOGGER.info("config file creation failed");
+                LOGGER.error("config file creation failed");
             }
         } catch (Exception e) {
             configFile.delete();
@@ -74,11 +86,12 @@ public class Configuration {
                         new BufferedReader(new FileReader(configFile)),
                         Configuration.class
                 );
+                configuration.isValid();
 
                 System.setProperty("spring.datasource.password", configuration.getDatabase().getPassword());
                 System.setProperty("spring.datasource.url", configuration.getDatabase().getURL());
                 System.setProperty("spring.datasource.username", configuration.getDatabase().getUsername());
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException | InvalidConfigurationException e) {
                 loaded = false;
                 e.printStackTrace();
             }

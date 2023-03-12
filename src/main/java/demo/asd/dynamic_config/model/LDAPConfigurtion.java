@@ -64,4 +64,14 @@ public class LDAPConfigurtion {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public boolean isValid() {
+        return !additionalUserDN.isEmpty() &&
+                !administratorUsername.isEmpty() &&
+                !baseDN.isEmpty() &&
+                !hostname.isEmpty() &&
+                !password.isEmpty() &&
+                (port != 0) &&
+                !username.isEmpty();
+    }
 }

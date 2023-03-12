@@ -1,22 +1,27 @@
 package demo.asd.dynamic_config.model;
 
 public class BasicConfiguration {
-    String BaseURL;
-    String LogFilePath;
+    String baseURL;
+    String logFilePath;
 
     public String getBaseURL() {
-        return BaseURL;
+        return baseURL;
     }
 
     public void setBaseURL(String baseURL) {
-        BaseURL = baseURL;
+        this.baseURL = baseURL;
     }
 
     public String getLogFilePath() {
-        return LogFilePath;
+        return logFilePath;
     }
 
     public void setLogFilePath(String logFilePath) {
-        LogFilePath = logFilePath;
+        this.logFilePath = logFilePath;
+    }
+
+    public boolean isValid() {
+        return !baseURL.isEmpty() &&
+                !logFilePath.isEmpty();
     }
 }

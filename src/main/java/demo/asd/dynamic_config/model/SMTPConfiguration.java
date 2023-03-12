@@ -37,4 +37,11 @@ public class SMTPConfiguration {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public boolean isValid() {
+        return !password.isEmpty() &&
+                (port != 0) &&
+                !server.isEmpty() &&
+                !username.isEmpty();
+    }
 }
