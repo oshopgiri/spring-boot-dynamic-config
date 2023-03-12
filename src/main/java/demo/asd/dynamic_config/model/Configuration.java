@@ -58,30 +58,13 @@ public class Configuration {
         return true;
     }
 
-    public static void save(Configuration configuration) {
-        File configFile = new File(CONFIG_FILE_PATH);
-        try {
-            configuration.isValid();
-
-            if (configFile.createNewFile()) {
-                FileWriter configWriter = new FileWriter(configFile);
-                configWriter.write(new Gson().toJson(configuration));
-                configWriter.close();
-            } else {
-                LOGGER.error("config file creation failed");
-            }
-        } catch (Exception e) {
-            configFile.delete();
-            e.printStackTrace();
-        }
-    }
-
     public static boolean load() {
         File configFile = new File(CONFIG_FILE_PATH);
         boolean loaded = configFile.exists();
 
         if (loaded) {
             try {
+//                TODO: decrypt file content before initializing Configuration instance
                 Configuration configuration = new Gson().fromJson(
                         new BufferedReader(new FileReader(configFile)),
                         Configuration.class
@@ -98,5 +81,24 @@ public class Configuration {
         }
 
         return loaded;
+    }
+
+    public static void save(Configuration configuration) {
+        File configFile = new File(CONFIG_FILE_PATH);
+        try {
+            configuration.isValid();
+
+            if (configFile.createNewFile()) {
+                FileWriter configWriter = new FileWriter(configFile);
+//                TODO: encrypt configuration before writing to file
+                configWriter.write(new Gson().toJson(configuration));
+                configWriter.close();
+            } else {
+                LOGGER.error("config file creation failed");
+            }
+        } catch (Exception e) {
+            configFile.delete();
+            e.printStackTrace();
+        }
     }
 }
