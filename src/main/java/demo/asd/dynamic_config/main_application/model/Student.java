@@ -3,7 +3,7 @@ package demo.asd.dynamic_config.main_application.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "student")
+@Table(name = "students")
 public class Student {
     @Column(name = "id")
     @Id

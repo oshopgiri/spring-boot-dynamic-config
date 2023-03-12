@@ -8,11 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.io.File;
-import java.io.FileWriter;
-
-import com.google.gson.Gson;
-
 @Controller
 public class SetupController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SetupController.class);
@@ -26,58 +21,43 @@ public class SetupController {
 
     @PostMapping("/update")
     public String update() {
-//        TODO: save form data to config file
+//        TODO: read form data from params instead of hardcoding
 
         BasicConfiguration basicConfiguration = new BasicConfiguration();
-        basicConfiguration.setBaseURL("urll");
-        basicConfiguration.setLogFilePath("c:users");
+        basicConfiguration.setBaseURL("url");
+        basicConfiguration.setLogFilePath("log.file_path");
 
         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
-        databaseConfiguration.setDbName("test");
-        databaseConfiguration.setDbHostname("sa");
-        databaseConfiguration.setDbPort("1433");
-        databaseConfiguration.setDbUsername("sa");
-        databaseConfiguration.setDbPassword("123");
+        databaseConfiguration.setHostname("localhost");
+        databaseConfiguration.setName("dynamic_config");
+        databaseConfiguration.setPassword("");
+        databaseConfiguration.setPort(3306);
+        databaseConfiguration.setUsername("root");
 
         SMTPConfiguration smtpConfiguration = new SMTPConfiguration();
-        smtpConfiguration.setSmtpPassword("8090");
-        smtpConfiguration.setSmtpServer("asfdd");
-        smtpConfiguration.setSmtpUsername("raj");
-        smtpConfiguration.setSmtpPassword("sdas@ed");
+        smtpConfiguration.setPassword("password");
+        smtpConfiguration.setPort(1234);
+        smtpConfiguration.setServer("localhost");
+        smtpConfiguration.setUsername("username");
 
         LDAPConfigurtion ldapConfigurtion = new LDAPConfigurtion();
-        ldapConfigurtion.setLdapHostname("ldaphost");
-        ldapConfigurtion.setLdapUsername("ldapusername");
-        ldapConfigurtion.setLdapPort("8090");
-        ldapConfigurtion.setLdapAdministratorUser("admin user");
-        ldapConfigurtion.setLdapPassword("ldappassword");
-        ldapConfigurtion.setLdapBaseDN("baseDN");
-        ldapConfigurtion.setLdapAdditionalUserDN("ldapadduser");
+        ldapConfigurtion.setAdditionalUserDN("additionalUserDN");
+        ldapConfigurtion.setAdministratorUsername("admin_user");
+        ldapConfigurtion.setBaseDN("baseDN");
+        ldapConfigurtion.setHostname("localhost");
+        ldapConfigurtion.setPassword("password");
+        ldapConfigurtion.setPort(8090);
+        ldapConfigurtion.setUsername("username");
 
         Configuration configuration = new Configuration();
         configuration.setBasic(basicConfiguration);
         configuration.setDatabase(databaseConfiguration);
-        configuration.setSmtp(smtpConfiguration);
-        configuration.setLdap(ldapConfigurtion);
+        configuration.setSMTP(smtpConfiguration);
+        configuration.setLDAP(ldapConfigurtion);
 
-        LOGGER.info(System.getProperty("user.home"));
-        File configFile = new File(System.getProperty("user.home") + "/gps-config.json");
-        try {
-            if (configFile.createNewFile()) {
-                FileWriter fileWriter = new FileWriter(System.getProperty("user.home") + "/gps-config.json");
-                Gson gson = new Gson();
-
-                String data = gson.toJson(configuration);
-                fileWriter.write(data);
-                fileWriter.close();
-            } else {
-                LOGGER.info("config file creation failed");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        Configuration.save(configuration);
         Application.restart();
+
         return"configuration_saved";
     }
 }

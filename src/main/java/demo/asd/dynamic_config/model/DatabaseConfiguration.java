@@ -1,49 +1,61 @@
 package demo.asd.dynamic_config.model;
 
 public class DatabaseConfiguration {
-    String dbHostname;
-    String dbPort;
-    String dbName;
-    String dbUsername;
-    String dbPassword;
+    String hostname;
+    String name;
+    String password;
+    int port;
+    String username;
 
-    public String getDbHostname() {
-        return dbHostname;
+    public String getHostname() {
+        return hostname;
     }
 
-    public void setDbHostname(String dbHostname) {
-        this.dbHostname = dbHostname;
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
-    public String getDbPort() {
-        return dbPort;
+    public String getName() {
+        return name;
     }
 
-    public void setDbPort(String dbPort) {
-        this.dbPort = dbPort;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDbName() {
-        return dbName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getDbUsername() {
-        return dbUsername;
+    public int getPort() {
+        return port;
     }
 
-    public void setDbUsername(String dbUsername) {
-        this.dbUsername = dbUsername;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public String getDbPassword() {
-        return dbPassword;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDbPassword(String dbPassword) {
-        this.dbPassword = dbPassword;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getURL() {
+        return "jdbc:mysql://" + hostname + ":" + port + "/" + name;
+    }
+
+    public boolean isValid() {
+        return !hostname.isEmpty() &&
+                !name.isEmpty() &&
+                !password.isEmpty() &&
+                (port != 0) &&
+                !username.isEmpty();
     }
 }

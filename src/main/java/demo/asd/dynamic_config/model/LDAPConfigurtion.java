@@ -1,67 +1,77 @@
 package demo.asd.dynamic_config.model;
 
 public class LDAPConfigurtion {
-    String ldapHostname;
-    String ldapPort;
-    String ldapUsername;
-    String ldapPassword;
-    String ldapBaseDN;
-    String ldapAdditionalUserDN;
-    String ldapAdministratorUser;
+    String additionalUserDN;
+    String administratorUsername;
+    String baseDN;
+    String hostname;
+    String password;
+    int port;
+    String username;
 
-    public String getLdapHostname() {
-        return ldapHostname;
+    public String getAdditionalUserDN() {
+        return additionalUserDN;
     }
 
-    public void setLdapHostname(String ldapHostname) {
-        this.ldapHostname = ldapHostname;
+    public void setAdditionalUserDN(String additionalUserDN) {
+        this.additionalUserDN = additionalUserDN;
     }
 
-    public String getLdapPort() {
-        return ldapPort;
+    public String getAdministratorUsername() {
+        return administratorUsername;
     }
 
-    public void setLdapPort(String ldapPort) {
-        this.ldapPort = ldapPort;
+    public void setAdministratorUsername(String administratorUsername) {
+        this.administratorUsername = administratorUsername;
     }
 
-    public String getLdapUsername() {
-        return ldapUsername;
+    public String getHostname() {
+        return hostname;
     }
 
-    public void setLdapUsername(String ldapUsername) {
-        this.ldapUsername = ldapUsername;
+    public String getBaseDN() {
+        return baseDN;
     }
 
-    public String getLdapPassword() {
-        return ldapPassword;
+    public void setBaseDN(String baseDN) {
+        this.baseDN = baseDN;
     }
 
-    public void setLdapPassword(String ldapPassword) {
-        this.ldapPassword = ldapPassword;
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
-    public String getLdapBaseDN() {
-        return ldapBaseDN;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLdapBaseDN(String ldapBaseDN) {
-        this.ldapBaseDN = ldapBaseDN;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getLdapAdditionalUserDN() {
-        return ldapAdditionalUserDN;
+    public int getPort() {
+        return port;
     }
 
-    public void setLdapAdditionalUserDN(String ldapAdditionalUserDN) {
-        this.ldapAdditionalUserDN = ldapAdditionalUserDN;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public String getLdapAdministratorUser() {
-        return ldapAdministratorUser;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLdapAdministratorUser(String ldapAdministratorUser) {
-        this.ldapAdministratorUser = ldapAdministratorUser;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isValid() {
+        return !additionalUserDN.isEmpty() &&
+                !administratorUsername.isEmpty() &&
+                !baseDN.isEmpty() &&
+                !hostname.isEmpty() &&
+                !password.isEmpty() &&
+                (port != 0) &&
+                !username.isEmpty();
     }
 }

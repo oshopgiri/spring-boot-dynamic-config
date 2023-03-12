@@ -1,13 +1,15 @@
 package demo.asd.dynamic_config.model;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Configuration {
+    public static final String CONFIG_FILE_PATH = System.getProperty("user.home") + "/gps.config";
+    private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
+
     BasicConfiguration basic;
     DatabaseConfiguration database;
     LDAPConfigurtion ldap;
@@ -29,38 +31,72 @@ public class Configuration {
         this.database = database;
     }
 
-    public LDAPConfigurtion getLdap() {
+    public LDAPConfigurtion getLDAP() {
         return ldap;
     }
 
-    public void setLdap(LDAPConfigurtion ldap) {
+    public void setLDAP(LDAPConfigurtion ldap) {
         this.ldap = ldap;
     }
 
-    public SMTPConfiguration getSmtp() {
+    public SMTPConfiguration getSMTP() {
         return smtp;
     }
 
-    public void setSmtp(SMTPConfiguration smtp) {
+    public void setSMTP(SMTPConfiguration smtp) {
         this.smtp = smtp;
     }
 
+    public boolean isValid() throws InvalidConfigurationException {
+        boolean valid = basic.isValid() &&
+                database.isValid() &&
+                ldap.isValid() &&
+                smtp.isValid();
+
+        if (!valid) throw new InvalidConfigurationException("configuration file is invalid");
+
+        return true;
+    }
+
     public static boolean load() {
-        File configFile = new File(System.getProperty("user.home") + "/gps-config.json");
-        boolean exists = configFile.exists();
+        File configFile = new File(CONFIG_FILE_PATH);
+        boolean loaded = configFile.exists();
 
-        if (exists) {
-            Gson gson = new Gson();
-
+        if (loaded) {
             try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
-                Configuration configuration = gson.fromJson(bufferedReader, Configuration.class);
-//                TODO: load config file and ensure everything is loaded correctly, else exists = false
-            } catch (FileNotFoundException e) {
+                Configuration configuration = new Gson().fromJson(
+                        new BufferedReader(new FileReader(configFile)),
+                        Configuration.class
+                );
+                configuration.isValid();
+
+                System.setProperty("spring.datasource.password", configuration.getDatabase().getPassword());
+                System.setProperty("spring.datasource.url", configuration.getDatabase().getURL());
+                System.setProperty("spring.datasource.username", configuration.getDatabase().getUsername());
+            } catch (FileNotFoundException | InvalidConfigurationException e) {
+                loaded = false;
                 e.printStackTrace();
             }
         }
 
-        return exists;
+        return loaded;
+    }
+
+    public static void save(Configuration configuration) {
+        File configFile = new File(CONFIG_FILE_PATH);
+        try {
+            configuration.isValid();
+
+            if (configFile.createNewFile()) {
+                FileWriter configWriter = new FileWriter(configFile);
+                configWriter.write(new Gson().toJson(configuration));
+                configWriter.close();
+            } else {
+                LOGGER.error("config file creation failed");
+            }
+        } catch (Exception e) {
+            configFile.delete();
+            e.printStackTrace();
+        }
     }
 }
