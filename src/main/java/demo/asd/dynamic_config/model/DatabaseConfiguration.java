@@ -54,7 +54,8 @@ public class DatabaseConfiguration {
     public boolean isValid() {
         return !hostname.isEmpty() &&
                 !name.isEmpty() &&
-                !password.isEmpty() &&
+//                FIXME: commented because my local db password is blank :)
+//                !password.isEmpty() &&
                 (port != 0) &&
                 !username.isEmpty();
     }

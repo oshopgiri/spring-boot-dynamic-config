@@ -2,16 +2,12 @@ package demo.asd.dynamic_config.setup_application.controller;
 
 import demo.asd.dynamic_config.Application;
 import demo.asd.dynamic_config.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class SetupController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SetupController.class);
-
     @GetMapping("/")
     public String show() {
 //        TODO: show configuration form
