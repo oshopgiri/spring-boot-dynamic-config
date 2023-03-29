@@ -17,8 +17,6 @@ import java.io.IOException;
 
 @Slf4j
 public class Application extends SpringBootServletInitializer implements ApplicationContextAware {
-    private static Class applicationClass;
-
     public static void restart() {
         if (context == null) {
             restartExternal();
@@ -27,12 +25,11 @@ public class Application extends SpringBootServletInitializer implements Applica
         }
     }
 
-    private static void configure() {
-        applicationClass = Configuration.load() ? MainApplication.class : SetupApplication.class;
+    private static Class configure() {
+        return Configuration.load() ? MainApplication.class : SetupApplication.class;
     }
 
 // --------------------------------------------------------------------------------------------------------------------- embedded tomcat stuff
-
     private static ClassLoader mainThreadClassLoader;
     private static ConfigurableApplicationContext context;
 
@@ -42,8 +39,7 @@ public class Application extends SpringBootServletInitializer implements Applica
     }
 
     private static void boot(String[] args) {
-        configure();
-        context = SpringApplication.run(applicationClass, args);
+        context = SpringApplication.run(configure(), args);
     }
 
     private static void restartNative() {
@@ -62,11 +58,9 @@ public class Application extends SpringBootServletInitializer implements Applica
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         context = (ConfigurableApplicationContext) applicationContext;
     }
-
 // --------------------------------------------------------------------------------------------------------------------- embedded tomcat stuff ends
 
 // --------------------------------------------------------------------------------------------------------------------- external tomcat stuff
-
     private static void restartExternal() {
         try {
 // https://stackoverflow.com/a/26301367
@@ -79,9 +73,7 @@ public class Application extends SpringBootServletInitializer implements Applica
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        Application.configure();
-        return application.sources(applicationClass);
+        return application.sources(Application.configure());
     }
-
 // --------------------------------------------------------------------------------------------------------------------- external tomcat stuff ends
 }
