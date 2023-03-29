@@ -18,6 +18,7 @@ import java.io.IOException;
 @Slf4j
 public class Application extends SpringBootServletInitializer implements ApplicationContextAware {
     public static void restart() {
+//       context will never be null when using embedded tomcat
         if (context == null) {
             restartExternal();
         } else {
