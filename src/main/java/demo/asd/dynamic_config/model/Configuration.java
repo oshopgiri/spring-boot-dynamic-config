@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 public class Configuration {
-    public static final String CONFIG_FILE_PATH = System.getProperty("user.home") + "/gps.config";
+    public static final String CONFIG_FILE_PATH = System.getProperty("user.home") + File.separatorChar + "gps.config";
     private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
 
     BasicConfiguration basic;
