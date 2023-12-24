@@ -1,11 +1,11 @@
 package demo.asd.dynamic_config.model;
 
 import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
+@Slf4j
 public class Configuration {
     public static final String CONFIG_FILE_PATH = System.getProperty("user.home") + File.separatorChar + "gps.config";
     private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
@@ -92,7 +92,7 @@ public class Configuration {
                 configWriter.write(new Gson().toJson(configuration));
                 configWriter.close();
             } else {
-                LOGGER.error("config file creation failed");
+                log.error("config file creation failed");
             }
         } catch (Exception e) {
             configFile.delete();
